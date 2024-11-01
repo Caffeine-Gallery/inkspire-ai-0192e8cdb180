@@ -1,0 +1,3 @@
+service : {
+  generateDesign: (text) -> (text);
+}
