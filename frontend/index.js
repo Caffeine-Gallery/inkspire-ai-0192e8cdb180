@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (designImage) {
             const link = document.createElement('a');
             link.href = designImage.src;
-            link.download = 'tattoo_design.png';
+            link.download = 'tattoo_design.jpg';
             link.click();
         }
     });
