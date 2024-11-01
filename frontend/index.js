@@ -22,8 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
         stylePreset: 'traditional'
     };
 
-    let currentDesignUrl = '';
-
     function debounce(func, wait) {
         let timeout;
         return function executedFunction(...args) {
@@ -40,7 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
         loadingOverlay.classList.remove('hidden');
         try {
             const design = await backend.generateDesign(currentParams);
-            currentDesignUrl = design;
             displayDesign(design);
         } catch (error) {
             console.error('Error generating design:', error);
@@ -59,20 +56,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function updateDesignUrl() {
-        if (!currentDesignUrl) return;
-
-        const url = new URL(currentDesignUrl);
-        url.searchParams.set('line', currentParams.lineThickness / 100);
-        url.searchParams.set('contrast', currentParams.contrast / 100);
-        url.searchParams.set('brightness', currentParams.brightness / 100);
-        url.searchParams.set('color', currentParams.colorPalette);
-        url.searchParams.set('style', currentParams.stylePreset);
-
-        displayDesign(url.toString());
-    }
-
-    const debouncedUpdateDesign = debounce(updateDesignUrl, 300);
+    const debouncedGenerateDesign = debounce(generateDesign, 300);
 
     generateBtn.addEventListener('click', () => {
         currentParams.description = designInput.value.trim();
@@ -96,19 +80,19 @@ document.addEventListener('DOMContentLoaded', function() {
     lineThicknessSlider.addEventListener('input', (e) => {
         currentParams.lineThickness = parseInt(e.target.value);
         document.getElementById('lineThicknessValue').textContent = `${currentParams.lineThickness}%`;
-        debouncedUpdateDesign();
+        debouncedGenerateDesign();
     });
 
     contrastSlider.addEventListener('input', (e) => {
         currentParams.contrast = parseInt(e.target.value);
         document.getElementById('contrastValue').textContent = `${currentParams.contrast}%`;
-        debouncedUpdateDesign();
+        debouncedGenerateDesign();
     });
 
     brightnessSlider.addEventListener('input', (e) => {
         currentParams.brightness = parseInt(e.target.value);
         document.getElementById('brightnessValue').textContent = `${currentParams.brightness}%`;
-        debouncedUpdateDesign();
+        debouncedGenerateDesign();
     });
 
     colorPalettes.forEach(palette => {
@@ -116,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
             colorPalettes.forEach(p => p.classList.remove('ring-2', 'ring-purple-500'));
             this.classList.add('ring-2', 'ring-purple-500');
             currentParams.colorPalette = this.dataset.color;
-            debouncedUpdateDesign();
+            debouncedGenerateDesign();
         });
     });
 
@@ -125,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
             stylePresets.forEach(p => p.classList.remove('ring-2', 'ring-purple-500'));
             this.classList.add('ring-2', 'ring-purple-500');
             currentParams.stylePreset = this.dataset.style;
-            debouncedUpdateDesign();
+            debouncedGenerateDesign();
         });
     });
 });
