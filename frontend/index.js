@@ -57,4 +57,13 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.transform = 'scale(1.2)';
         });
     });
+
+    // Handle style preset selection
+    const stylePresets = document.querySelectorAll('.bg-gray-800');
+    stylePresets.forEach(preset => {
+        preset.addEventListener('click', function() {
+            stylePresets.forEach(p => p.classList.remove('ring-2', 'ring-purple-500'));
+            this.classList.add('ring-2', 'ring-purple-500');
+        });
+    });
 });
