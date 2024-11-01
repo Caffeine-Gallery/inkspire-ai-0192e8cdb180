@@ -7,11 +7,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const saveDesignBtn = document.getElementById('saveDesignBtn');
     const designPreview = document.getElementById('designPreview');
     const loadingOverlay = document.getElementById('loadingOverlay');
+    const styleIntensitySlider = document.getElementById('styleIntensity');
+    const detailLevelSlider = document.getElementById('detailLevel');
+    const colorPalettes = document.querySelectorAll('.color-palette');
+    const stylePresets = document.querySelectorAll('.style-preset');
 
-    async function generateDesign(description) {
+    let currentParams = {
+        description: '',
+        styleIntensity: 75,
+        detailLevel: 85,
+        colorPalette: 'purple',
+        stylePreset: 'traditional'
+    };
+
+    async function generateDesign() {
         loadingOverlay.classList.remove('hidden');
         try {
-            const design = await backend.generateDesign(description);
+            const design = await backend.generateDesign(currentParams);
             displayDesign(design);
         } catch (error) {
             console.error('Error generating design:', error);
@@ -21,23 +33,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    function displayDesign(design) {
-        designPreview.innerHTML = `<img src="${design}" alt="Generated Tattoo Design" class="max-w-full max-h-full object-contain">`;
+    function displayDesign(designUrl) {
+        designPreview.innerHTML = `<img src="${designUrl}" alt="Generated Tattoo Design" class="max-w-full max-h-full object-contain">`;
     }
 
     generateBtn.addEventListener('click', () => {
-        const description = designInput.value.trim();
-        if (description) {
-            generateDesign(description);
+        currentParams.description = designInput.value.trim();
+        if (currentParams.description) {
+            generateDesign();
         }
     });
 
-    newDesignBtn.addEventListener('click', () => {
-        const description = designInput.value.trim();
-        if (description) {
-            generateDesign(description);
-        }
-    });
+    newDesignBtn.addEventListener('click', generateDesign);
 
     saveDesignBtn.addEventListener('click', () => {
         const designImage = designPreview.querySelector('img');
@@ -49,21 +56,29 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Handle color palette selection
-    const colorPalettes = document.querySelectorAll('.rounded-full');
+    styleIntensitySlider.addEventListener('input', (e) => {
+        currentParams.styleIntensity = parseInt(e.target.value);
+        document.getElementById('styleIntensityValue').textContent = `${currentParams.styleIntensity}%`;
+    });
+
+    detailLevelSlider.addEventListener('input', (e) => {
+        currentParams.detailLevel = parseInt(e.target.value);
+        document.getElementById('detailLevelValue').textContent = `${currentParams.detailLevel}%`;
+    });
+
     colorPalettes.forEach(palette => {
         palette.addEventListener('click', function() {
-            colorPalettes.forEach(p => p.style.transform = 'scale(1)');
-            this.style.transform = 'scale(1.2)';
+            colorPalettes.forEach(p => p.classList.remove('ring-2', 'ring-purple-500'));
+            this.classList.add('ring-2', 'ring-purple-500');
+            currentParams.colorPalette = this.dataset.color;
         });
     });
 
-    // Handle style preset selection
-    const stylePresets = document.querySelectorAll('.bg-gray-800');
     stylePresets.forEach(preset => {
         preset.addEventListener('click', function() {
             stylePresets.forEach(p => p.classList.remove('ring-2', 'ring-purple-500'));
             this.classList.add('ring-2', 'ring-purple-500');
+            currentParams.stylePreset = this.dataset.style;
         });
     });
 });

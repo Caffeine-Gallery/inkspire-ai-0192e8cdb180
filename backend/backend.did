@@ -1,3 +1,11 @@
+type DesignParams = 
+ record {
+   colorPalette: text;
+   description: text;
+   detailLevel: nat;
+   styleIntensity: nat;
+   stylePreset: text;
+ };
 service : {
-  generateDesign: (text) -> (text);
+  generateDesign: (DesignParams) -> (text);
 }
