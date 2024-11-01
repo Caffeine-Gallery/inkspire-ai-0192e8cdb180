@@ -12,8 +12,9 @@ import Blob "mo:base/Blob";
 actor {
   type DesignParams = {
     description: Text;
-    styleIntensity: Nat;
-    detailLevel: Nat;
+    lineThickness: Nat;
+    contrast: Nat;
+    brightness: Nat;
     colorPalette: Text;
     stylePreset: Text;
   };
@@ -36,15 +37,17 @@ actor {
     
     let fgColor = "FFFFFF";
     
-    let intensity = Float.toText(Float.fromInt(params.styleIntensity) / 100);
-    let detail = Float.toText(Float.fromInt(params.detailLevel) / 100);
+    let lineThickness = Float.toText(Float.fromInt(params.lineThickness) / 100);
+    let contrast = Float.toText(Float.fromInt(params.contrast) / 100);
+    let brightness = Float.toText(Float.fromInt(params.brightness) / 100);
     
     let text = Text.join("+", Text.split(params.description, #text(" ")));
     
     let url = baseUrl # size # "/" # bgColor # "/" # fgColor # "?text=" # text # 
               "&seed=" # seedText #
-              "&intensity=" # intensity #
-              "&detail=" # detail #
+              "&line=" # lineThickness #
+              "&contrast=" # contrast #
+              "&brightness=" # brightness #
               "&style=" # params.stylePreset;
     
     return url;

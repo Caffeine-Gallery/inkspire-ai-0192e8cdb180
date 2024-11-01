@@ -1,9 +1,10 @@
 type DesignParams = 
  record {
+   brightness: nat;
    colorPalette: text;
+   contrast: nat;
    description: text;
-   detailLevel: nat;
-   styleIntensity: nat;
+   lineThickness: nat;
    stylePreset: text;
  };
 service : {

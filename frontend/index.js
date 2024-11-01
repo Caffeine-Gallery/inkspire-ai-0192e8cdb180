@@ -7,15 +7,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const saveDesignBtn = document.getElementById('saveDesignBtn');
     const designPreview = document.getElementById('designPreview');
     const loadingOverlay = document.getElementById('loadingOverlay');
-    const styleIntensitySlider = document.getElementById('styleIntensity');
-    const detailLevelSlider = document.getElementById('detailLevel');
+    const lineThicknessSlider = document.getElementById('lineThickness');
+    const contrastSlider = document.getElementById('contrast');
+    const brightnessSlider = document.getElementById('brightness');
     const colorPalettes = document.querySelectorAll('.color-palette');
     const stylePresets = document.querySelectorAll('.style-preset');
 
     let currentParams = {
         description: '',
-        styleIntensity: 75,
-        detailLevel: 85,
+        lineThickness: 50,
+        contrast: 75,
+        brightness: 50,
         colorPalette: 'purple',
         stylePreset: 'traditional'
     };
@@ -56,14 +58,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    styleIntensitySlider.addEventListener('input', (e) => {
-        currentParams.styleIntensity = parseInt(e.target.value);
-        document.getElementById('styleIntensityValue').textContent = `${currentParams.styleIntensity}%`;
+    lineThicknessSlider.addEventListener('input', (e) => {
+        currentParams.lineThickness = parseInt(e.target.value);
+        document.getElementById('lineThicknessValue').textContent = `${currentParams.lineThickness}%`;
     });
 
-    detailLevelSlider.addEventListener('input', (e) => {
-        currentParams.detailLevel = parseInt(e.target.value);
-        document.getElementById('detailLevelValue').textContent = `${currentParams.detailLevel}%`;
+    contrastSlider.addEventListener('input', (e) => {
+        currentParams.contrast = parseInt(e.target.value);
+        document.getElementById('contrastValue').textContent = `${currentParams.contrast}%`;
+    });
+
+    brightnessSlider.addEventListener('input', (e) => {
+        currentParams.brightness = parseInt(e.target.value);
+        document.getElementById('brightnessValue').textContent = `${currentParams.brightness}%`;
     });
 
     colorPalettes.forEach(palette => {

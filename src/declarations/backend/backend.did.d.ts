@@ -4,10 +4,11 @@ import type { IDL } from '@dfinity/candid';
 
 export interface DesignParams {
   'stylePreset' : string,
+  'contrast' : bigint,
   'description' : string,
+  'brightness' : bigint,
   'colorPalette' : string,
-  'detailLevel' : bigint,
-  'styleIntensity' : bigint,
+  'lineThickness' : bigint,
 }
 export interface _SERVICE {
   'generateDesign' : ActorMethod<[DesignParams], string>,
