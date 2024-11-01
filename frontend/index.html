@@ -7,59 +7,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <style>
-        .gradient-bg {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-        }
-        .glass-morphism {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .neon-border {
-            box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
-        }
-        .card-hover {
-            transition: all 0.3s ease;
-        }
-        .card-hover:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        }
-        .floating {
-            animation: floating 3s ease-in-out infinite;
-        }
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        .glow-text {
-            text-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
-        }
-        .loader {
-            width: 48px;
-            height: 48px;
-            border: 5px solid #FFF;
-            border-bottom-color: transparent;
-            border-radius: 50%;
-            display: inline-block;
-            box-sizing: border-box;
-            animation: rotation 1s linear infinite;
-        }
-        @keyframes rotation {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .scroll-indicator {
-            animation: bounce 2s infinite;
-        }
-        @keyframes bounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-20px); }
-            60% { transform: translateY(-10px); }
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body class="gradient-bg min-h-screen text-gray-100">
     <!-- Navigation -->
@@ -171,7 +119,6 @@
                                     <div class="w-10 h-10 rounded-full bg-pink-500 cursor-pointer transition-transform hover:scale-110 color-palette" data-color="pink"></div>
                                     <div class="w-10 h-10 rounded-full bg-green-500 cursor-pointer transition-transform hover:scale-110 color-palette" data-color="green"></div>
                                     <div class="w-10 h-10 rounded-full bg-yellow-500 cursor-pointer transition-transform hover:scale-110 color-palette" data-color="yellow"></div>
-                                    <div class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 cursor-pointer transition-transform hover:scale-110 color-palette" data-color="gradient"></div>
                                 </div>
                             </div>
                         </div>
@@ -182,19 +129,19 @@
                         <h3 class="text-xl font-bold mb-4">Style Presets</h3>
                         <div class="grid grid-cols-2 gap-4">
                             <div class="bg-gray-800 p-4 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors style-preset" data-style="traditional">
-                                <img src="/api/placeholder/150/150" alt="Traditional" class="w-full rounded-lg mb-2">
+                                <img src="https://dummyimage.com/150x150/8A2BE2/ffffff&text=Traditional" alt="Traditional" class="w-full rounded-lg mb-2">
                                 <p class="text-center">Traditional</p>
                             </div>
                             <div class="bg-gray-800 p-4 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors style-preset" data-style="geometric">
-                                <img src="/api/placeholder/150/150" alt="Geometric" class="w-full rounded-lg mb-2">
+                                <img src="https://dummyimage.com/150x150/4169E1/ffffff&text=Geometric" alt="Geometric" class="w-full rounded-lg mb-2">
                                 <p class="text-center">Geometric</p>
                             </div>
                             <div class="bg-gray-800 p-4 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors style-preset" data-style="minimalist">
-                                <img src="/api/placeholder/150/150" alt="Minimalist" class="w-full rounded-lg mb-2">
+                                <img src="https://dummyimage.com/150x150/FF69B4/ffffff&text=Minimalist" alt="Minimalist" class="w-full rounded-lg mb-2">
                                 <p class="text-center">Minimalist</p>
                             </div>
                             <div class="bg-gray-800 p-4 rounded-lg cursor-pointer hover:bg-gray-700 transition-colors style-preset" data-style="watercolor">
-                                <img src="/api/placeholder/150/150" alt="Watercolor" class="w-full rounded-lg mb-2">
+                                <img src="https://dummyimage.com/150x150/32CD32/ffffff&text=Watercolor" alt="Watercolor" class="w-full rounded-lg mb-2">
                                 <p class="text-center">Watercolor</p>
                             </div>
                         </div>
