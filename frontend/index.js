@@ -22,10 +22,25 @@ document.addEventListener('DOMContentLoaded', function() {
         stylePreset: 'traditional'
     };
 
+    let currentDesignUrl = '';
+
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
     async function generateDesign() {
         loadingOverlay.classList.remove('hidden');
         try {
             const design = await backend.generateDesign(currentParams);
+            currentDesignUrl = design;
             displayDesign(design);
         } catch (error) {
             console.error('Error generating design:', error);
@@ -36,8 +51,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function displayDesign(designUrl) {
-        designPreview.innerHTML = `<img src="${designUrl}" alt="Generated Tattoo Design" class="max-w-full max-h-full object-contain">`;
+        const img = designPreview.querySelector('img');
+        if (img) {
+            img.src = designUrl;
+        } else {
+            designPreview.innerHTML = `<img src="${designUrl}" alt="Generated Tattoo Design" class="max-w-full max-h-full object-contain">`;
+        }
     }
+
+    function updateDesignUrl() {
+        if (!currentDesignUrl) return;
+
+        const url = new URL(currentDesignUrl);
+        url.searchParams.set('line', currentParams.lineThickness / 100);
+        url.searchParams.set('contrast', currentParams.contrast / 100);
+        url.searchParams.set('brightness', currentParams.brightness / 100);
+        url.searchParams.set('color', currentParams.colorPalette);
+        url.searchParams.set('style', currentParams.stylePreset);
+
+        displayDesign(url.toString());
+    }
+
+    const debouncedUpdateDesign = debounce(updateDesignUrl, 300);
 
     generateBtn.addEventListener('click', () => {
         currentParams.description = designInput.value.trim();
@@ -61,16 +96,19 @@ document.addEventListener('DOMContentLoaded', function() {
     lineThicknessSlider.addEventListener('input', (e) => {
         currentParams.lineThickness = parseInt(e.target.value);
         document.getElementById('lineThicknessValue').textContent = `${currentParams.lineThickness}%`;
+        debouncedUpdateDesign();
     });
 
     contrastSlider.addEventListener('input', (e) => {
         currentParams.contrast = parseInt(e.target.value);
         document.getElementById('contrastValue').textContent = `${currentParams.contrast}%`;
+        debouncedUpdateDesign();
     });
 
     brightnessSlider.addEventListener('input', (e) => {
         currentParams.brightness = parseInt(e.target.value);
         document.getElementById('brightnessValue').textContent = `${currentParams.brightness}%`;
+        debouncedUpdateDesign();
     });
 
     colorPalettes.forEach(palette => {
@@ -78,6 +116,7 @@ document.addEventListener('DOMContentLoaded', function() {
             colorPalettes.forEach(p => p.classList.remove('ring-2', 'ring-purple-500'));
             this.classList.add('ring-2', 'ring-purple-500');
             currentParams.colorPalette = this.dataset.color;
+            debouncedUpdateDesign();
         });
     });
 
@@ -86,6 +125,7 @@ document.addEventListener('DOMContentLoaded', function() {
             stylePresets.forEach(p => p.classList.remove('ring-2', 'ring-purple-500'));
             this.classList.add('ring-2', 'ring-purple-500');
             currentParams.stylePreset = this.dataset.style;
+            debouncedUpdateDesign();
         });
     });
 });
